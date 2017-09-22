@@ -1,0 +1,110 @@
+<html>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+var ballX = 75;
+var ballY = 75;
+var ballSpeedX = 5;
+var ballSpeedY = 7;
+
+var paddleWidth = 100;
+var paddleHeight =10;
+var paddleX = 400;
+var paddleDistanceFromEdge = 60;
+
+var canvas, canvasContext;
+
+function updateMousePosition(evt) {
+    var rect = canvas.getBoundingClientRect();
+    var root = document.documentElement;
+
+    var mouseX = evt.clientX - rect.left - root.scrollLeft;
+    var mouseY = evt.clientY - rect.top - root.scrollTop;
+
+    paddleX = mouseX - paddleWidth/2;
+
+}
+
+window.onload = function() {
+    canvas = document.getElementById('gameCanvas');
+    canvasContext = canvas.getContext('2d');
+
+    var framesPerSecond = 30;
+    setInterval(updateAll, 1000/framesPerSecond);
+
+    canvas.addEventListener('mousemove', updateMousePosition);
+
+}
+
+function updateAll() {
+    moveAll();
+    drawAll();
+}
+
+function resetBall() {
+    if (ballY > canvas.height) {
+        ballX = canvas.width/2;
+        ballY = canvas.height/2;
+    }
+
+}
+
+function moveAll() {
+    ballX += ballSpeedX;
+    ballY += ballSpeedY;
+    //console.log(ballX, ballY);
+
+    if (ballX > canvas.width) {
+        ballSpeedX *= -1;
+    }
+    if(ballX < 0) {
+        ballSpeedX *= -1
+    }
+
+    if (ballY > canvas.height) {
+        resetBall();
+    }
+    if(ballY < 0) {
+        ballSpeedY *= -1
+    }
+
+    var paddleTopEdgeY = canvas.height-paddleDistanceFromEdge;
+    var paddleBottomEdgeY = paddleTopEdgeY + paddleHeight;
+    var paddleLeftEdgeX = paddleX;
+    var paddleRightEdgeX = paddleX + paddleWidth;
+
+    if( ballY > paddleTopEdgeY &&
+        ballY < paddleBottomEdgeY &&
+        ballX > paddleLeftEdgeX &&
+        ballX < paddleRightEdgeX) {
+
+        ballSpeedY *= -1;
+
+    }
+}
+
+function drawAll() {
+    drawRect(0,0, canvas.width, canvas.height, 'black');
+
+    drawCircle(ballX,ballY, 10, 'red');
+
+    drawRect(paddleX,canvas.height-paddleDistanceFromEdge, paddleWidth,paddleHeight, 'white');
+}
+
+function drawRect(topLeftX,topLeftY, boxWidth,BoxHeight, fillColour) {
+    canvasContext.fillStyle = fillColour;
+    canvasContext.fillRect(topLeftX,topLeftY, boxWidth, BoxHeight);
+}
+
+function drawCircle(centerX,centerY, radius, fillColour) {
+    canvasContext.fillStyle = fillColour;
+    canvasContext.beginPath();
+    canvasContext.arc(centerX,centerY, radius, 0,Math.PI*2, true);
+    canvasContext.fill();
+}
+
+</script>
+
+</body>
+</html>
