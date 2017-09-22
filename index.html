@@ -81,6 +81,10 @@ function moveAll() {
 
         ballSpeedY *= -1;
 
+        var centerOfPaddleX = paddleX + paddleWidth/2;
+        var ballDistanceFromPaddleCenterX = ballX - centerOfPaddleX; //l-16
+        ballSpeedX = ballDistanceFromPaddleCenterX; //*.35;
+
     }
 }
 
