@@ -3,9 +3,9 @@
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <script>
-var ballX = 75;
-var ballY = 75;
-var ballSpeedX = 5;
+var ballX = 400;
+var ballY = 300;
+var ballSpeedX = 0;
 var ballSpeedY = 7;
 
 var brickWidth = 80;
@@ -87,6 +87,17 @@ function moveAll() {
     }
     if(ballY < 0) {
         ballSpeedY *= -1
+    }
+
+    var ballBrickColumn = Math.floor(ballX / brickWidth);
+    var ballBrickRow = Math.floor(ballY / brickHeight);
+    var brickIndexUnderBall = rowColumnToArrayIndex(ballBrickColumn, ballBrickRow);
+
+    if(brickIndexUnderBall >=0 &&
+        brickIndexUnderBall < numberOfColumn * numberOfRows) {
+
+        brickGrid[brickIndexUnderBall] = false;
+
     }
 
     var paddleTopEdgeY = canvas.height-paddleDistanceFromEdge;
