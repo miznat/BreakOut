@@ -11,12 +11,12 @@ var ballSpeedY = 7;
 var brickWidth = 80;
 var brickHeight = 20;
 var numberOfColumn = 10;
-var numberOfRows = 14;
+var numberOfRows = 6;
 var brickGrid = new Array(numberOfColumn * numberOfRows);
 
 var paddleWidth = 100;
 var paddleHeight = 10;
-var paddleX = 400;
+var paddleX = 350;
 var paddleDistanceFromEdge = 60;
 
 mouseX = 0;
@@ -66,6 +66,10 @@ function resetBall() {
     if (ballY > canvas.height) {
         ballX = canvas.width/2;
         ballY = canvas.height/2;
+        ballSpeedX = 0;
+        ballSpeedY = 7;
+
+        paddleX = 350; // reset paddle
     }
 
 }
@@ -93,11 +97,15 @@ function moveAll() {
     var ballBrickRow = Math.floor(ballY / brickHeight);
     var brickIndexUnderBall = rowColumnToArrayIndex(ballBrickColumn, ballBrickRow);
 
-    if(brickIndexUnderBall >=0 &&
-        brickIndexUnderBall < numberOfColumn * numberOfRows) {
+    if(ballBrickColumn >=0 && ballBrickColumn < numberOfColumn &&
+        ballBrickRow >= 0 && ballBrickRow < numberOfRows) {
 
-        brickGrid[brickIndexUnderBall] = false;
+        if(brickGrid[brickIndexUnderBall]) {
 
+            brickGrid[brickIndexUnderBall] = false;
+            ballSpeedY *= -1;
+        
+        }
     }
 
     var paddleTopEdgeY = canvas.height-paddleDistanceFromEdge;
