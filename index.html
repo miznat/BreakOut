@@ -3,15 +3,15 @@
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 
 <script>
-var ballX = 400;
-var ballY = 300;
-var ballSpeedX = 0;
+var ballX = 75;//400;
+var ballY = 75;//300;
+var ballSpeedX = -5;
 var ballSpeedY = 7;
 
 var brickWidth = 80;
 var brickHeight = 20;
 var numberOfColumn = 10;
-var numberOfRows = 6;
+var numberOfRows = 14;
 var brickGrid = new Array(numberOfColumn * numberOfRows);
 
 var paddleWidth = 100;
@@ -51,7 +51,7 @@ window.onload = function() {
     canvas.addEventListener('mousemove', updateMousePosition);
 
     brickReset();
-
+    
     //brickGrid[19] = false;
 
 }
